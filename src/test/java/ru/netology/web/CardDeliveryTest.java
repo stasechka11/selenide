@@ -31,7 +31,7 @@ public class CardDeliveryTest {
         $("button.button .spin").shouldBe(Condition.disappear, Duration.ofSeconds(16));
         $("[data-test-id='notification'] .notification__content")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
-                        .shouldHave(Condition.exactText("Встреча успешно забронирована на " + planningDate));
+                .shouldHave(Condition.exactText("Встреча успешно забронирована на " + planningDate));
     }
 
     @Test
@@ -57,6 +57,31 @@ public class CardDeliveryTest {
         $("[data-test-id='city'] input").setValue("Ор");
         $$(".menu-item__control").findBy(Condition.exactText("Оренбург")).click();
         String planningDate = generateDate(3, "dd.MM.yyyy");
+        $("[data-test-id='name'] input").setValue("Иванов Сергей");
+        $("[data-test-id='phone'] input").setValue("+71230077389");
+        $("[data-test-id='agreement']").click();
+        $("button.button").click();
+
+        $("button.button .spin").shouldBe(Condition.disappear, Duration.ofSeconds(16));
+        $("[data-test-id='notification'] .notification__content")
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Встреча успешно забронирована на " + planningDate));
+    }
+
+    @Test
+    public void shouldSelectDateInCalendarCardDeliveryOrder() {
+        open("http://localhost:9999/");
+        $("[data-test-id='city'] input").setValue("Нижний Новгород");
+        $(".icon_name_calendar").click();
+        String planningDate = generateDate(7, "dd.MM.yyyy");
+        String planningDay = generateDate(7, "dd");
+        String planningMonth = generateDate(7, "MM");
+
+        if (!generateDate(3, "MM").equals(planningMonth)) {
+            $(".calendar__arrow_direction_right[data-step='1']").click();
+        }
+
+        $$("td.calendar__day").findBy(Condition.exactText(planningDay)).click();
         $("[data-test-id='name'] input").setValue("Иванов Сергей");
         $("[data-test-id='phone'] input").setValue("+71230077389");
         $("[data-test-id='agreement']").click();
