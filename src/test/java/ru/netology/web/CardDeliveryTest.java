@@ -34,4 +34,21 @@ public class CardDeliveryTest {
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
                         .shouldHave(Condition.exactText("Встреча успешно забронирована на " + planningDate));
     }
+
+    @Test
+    public void shouldBeSuccessCardDeliveryOrderDefaultDate() {
+        open("http://localhost:9999/");
+        $("[data-test-id='city'] input").setValue("Орёл");
+        String planningDate = generateDate(3, "dd.MM.yyyy");
+        $("[data-test-id='date'] input").shouldBe(Condition.exactValue(planningDate));
+        $("[data-test-id='name'] input").setValue("Влас-Петр Кротов");
+        $("[data-test-id='phone'] input").setValue("+00000000000");
+        $("[data-test-id='agreement']").click();
+        $("button.button").click();
+
+        $("button.button .spin").shouldBe(Condition.disappear, Duration.ofSeconds(16));
+        $("[data-test-id='notification'] .notification__content")
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Встреча успешно забронирована на " + planningDate));
+    }
 }
