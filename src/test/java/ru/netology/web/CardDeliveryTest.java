@@ -24,7 +24,7 @@ public class CardDeliveryTest {
         String planningDate = generateDate(5, "dd.MM.yyyy");
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(planningDate);
-        $("[data-test-id='name'] input").setValue("Потапова Анна");
+        $("[data-test-id='name'] input").setValue("Потапова Алёна");
         $("[data-test-id='phone'] input").setValue("+71230077389");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
